@@ -205,7 +205,13 @@ const addRole = () => {
         {
             name: 'department',
             type:'input',
-            message: 'What is the department id?'
+            message: 'What is the department id?',
+            validate(value) {
+                if (isNaN(value) === false) {
+                    return true;
+              }
+              return false;
+                }, 
         },
         ])
 }
