@@ -87,7 +87,8 @@ const departmentDisplay = () => {
             message: 'View all departments now?',
         })
         .then((answer) => {
-            const query = 'SELECT '
+            const query = 'SELECT * FROM employee';
+            connection.query
         });
 
         runChoices();
