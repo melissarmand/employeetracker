@@ -18,7 +18,7 @@ const runChoices = () => {
 
     inquirer.prompt({
         name: 'action',
-        type: 'rawlist',
+        type: 'list',
         message: "What would you like to do?",
         choices: [
             'View all employees',
@@ -28,6 +28,7 @@ const runChoices = () => {
             'Add a department',
             'Add a role',
             'Update an employee role',
+            'EXIT',
 
         ],
     })
@@ -68,16 +69,16 @@ const runChoices = () => {
 const employeeDisplay = () => {
     inquirer
         .prompt({
-            name:'employee',
-            type:'confirm',
-            message: 'View all employees now?',
+            name: 'employee',
+            type: 'confirm',
+            message: 'Employee list?',
         })
         .then((answer) => {
-            const query = 'SELECT first_name, last_name, role_id, manager_id FROM employee WHERE ?';
+            const query = 'SELECT first_name, last_name, role_id, manager_id  FROM employee WHERE ?';
             connection.query(query, {})
         })
-        runChoices();
 };
+        
 
 const departmentDisplay = () => {
     inquirer
@@ -90,9 +91,10 @@ const departmentDisplay = () => {
             const query = 'SELECT * FROM employee';
             connection.query
         });
-
         runChoices();
+        
 };
+        
 
 const roleDisplay = () => {
     inquirer    
@@ -106,6 +108,8 @@ const roleDisplay = () => {
         });
         runChoices();
 };
+
+
 
 const addEmployee = () => {
     inquirer
@@ -144,9 +148,9 @@ const addEmployee = () => {
                 manager_id: answer.manager,
                 role_id: answer.role
             },
-            runChoices()
+          
             )
-
+            runChoices();
         });
 
 }
@@ -163,8 +167,9 @@ const addDepartment = () => {
         {
             department_name: answer.department,
         },
-        runChoices()
+       
         )
+        runChoices();
     })
 };
 
