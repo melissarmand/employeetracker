@@ -124,18 +124,6 @@ const addEmployee = () => {
 
         },
         {
-            name: 'manager',
-            type: 'input',
-            message: 'Who is the employees manager?',
-            validate(value) {
-                if (isNaN(value) === false) {
-                    return true;
-              }
-              return false;
-                }, 
-
-        },
-        {
             name: 'role',
             type: 'input',
             message: 'What is the employees role?',
