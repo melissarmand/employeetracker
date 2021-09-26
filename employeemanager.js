@@ -62,6 +62,10 @@ const runChoices = () => {
                 updateRole();
                 break;
 
+            case 'EXIT':
+                connection.end();
+                break;
+
         }
     });
 };
