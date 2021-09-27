@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
+const table = require('console.table');
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -18,7 +19,7 @@ const runChoices = () => {
 
     inquirer.prompt({
         name: 'action',
-        type: 'list',
+        type: 'rawlist',
         message: "What would you like to do?",
         choices: [
             'View all employees',
@@ -71,6 +72,7 @@ const runChoices = () => {
 };
 
 const employeeDisplay = () => {
+    table
     inquirer
         .prompt({
             name: 'employee',
@@ -78,10 +80,13 @@ const employeeDisplay = () => {
             message: 'Employee list?',
         })
         .then((answer) => {
-            const query = 'SELECT first_name, last_name, role_id, manager_id  FROM employee WHERE ?';
-            connection.query(query, {})
+            const query = 'SELECT * FROM employee';
+            connection.query(query, (err,res) => {
+                console.table(employee)
+                console.log(err);
+                runChoices();
         })
-};
+});
         
 
 const departmentDisplay = () => {
@@ -93,9 +98,14 @@ const departmentDisplay = () => {
         })
         .then((answer) => {
             const query = 'SELECT * FROM employee';
-            connection.query
+            connection.query(query, (err,res) => {
+                console.table(res)
+                console.log(err);
+                runChoices();
+            })
+            
         });
-        runChoices();
+        
         
 };
         
@@ -214,3 +224,4 @@ const addRole = () => {
         ])
 }
 
+}
