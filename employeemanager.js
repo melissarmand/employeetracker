@@ -1,6 +1,6 @@
 const mysql = require('mysql');
 const inquirer = require('inquirer');
-const table = require('console.table');
+
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -37,7 +37,7 @@ const runChoices = () => {
         switch (answer.action) {
             case 'View all employees':
                 employeeDisplay();
-                break;
+               break;
             
             case 'View all departments':
                 departmentDisplay();
@@ -72,156 +72,99 @@ const runChoices = () => {
 };
 
 const employeeDisplay = () => {
-    table
     inquirer
-        .prompt({
-            name: 'employee',
-            type: 'confirm',
-            message: 'Employee list?',
+    .prompt({
+        name: 'employee',
+        type: 'confirm',
+        message: 'Employee list?'
+    })
+    .then(() => {
+        const query = 'SELECT * FROM employee';
+        connection.query(query, (err,res) => {
+            console.table(res);
+            console.log(err);
+            runChoices()
         })
-        .then((answer) => {
-            const query = 'SELECT * FROM employee';
-            connection.query(query, (err,res) => {
-                console.table(employee)
-                console.log(err);
-                runChoices();
-        })
-});
-        
+    })
+};
 
 const departmentDisplay = () => {
     inquirer
-        .prompt({
-            name: 'department',
-            type: 'confirm',
-            message: 'View all departments now?',
+    .prompt({
+        name: 'department',
+        type: 'confirm',
+        message: 'Department list?'
+    })
+    .then(() => {
+        const query = 'SELECT * FROM department';
+        connection.query(query, (err,res) => {
+            console.table(res);
+            console.log(err);
+            runChoices()
         })
-        .then((answer) => {
-            const query = 'SELECT * FROM employee';
-            connection.query(query, (err,res) => {
-                console.table(res)
-                console.log(err);
-                runChoices();
-            })
-            
-        });
-        
-        
+    })
 };
-        
 
 const roleDisplay = () => {
-    inquirer    
-        .prompt({
-            name: 'role',
-            type: 'confirm',
-            message: 'View all departments now?',
+    inquirer
+    .prompt({
+        name: 'role',
+        type: 'confirm',
+        message: 'View Employee Role?'
+    })
+    .then(() => {
+        const query = 'SELECT * FROM employee_role';
+        connection.query(query, (err,res) => {
+            console.table(res);
+            console.log(err);
+            runChoices()
         })
-        .then((answer) => {
-            const query = 'SELECT '
-        });
-        runChoices();
+    })
 };
 
-
-
-const addEmployee = () => {
-    inquirer
-        .prompt([
-         {
-            name: 'firstname',
-            type: 'input',
-            message: 'What is the employees first name?',
-            
-        },
-        {
-            name: 'lastname',
-            type: 'input',
-            message: 'What is the employees last name?',
-            
-
-        },
-        {
-            name: 'role',
-            type: 'input',
-            message: 'What is the employees role?',
-            validate(value) {
-            if (isNaN(value) === false) {
-                return true;
-          }
-          return false;
-            }, 
-
-        },     
-        ])
-        .then((answer) => {
-            connection.query('INSERT INTO employee SET ?',
-            {
-                first_name: answer.firstname,
-                last_name: answer.lastname,
-                manager_id: answer.manager,
-                role_id: answer.role
-            },
-          
-            )
-            runChoices();
-        });
-
-}
-const addDepartment = () => {
+const departmentDisplay = () => {
     inquirer
     .prompt({
         name: 'department',
-        type: 'input',
-        message: 'What is the name of the new department?'
+        type: 'confirm',
+        message: 'Department list?'
     })
-
-    .then((answer) => {
-        connection.query('INSERT INTO department SET ?',
-        {
-            department_name: answer.department,
-        },
-       
-        )
-        runChoices();
+    .then(() => {
+        const query = 'SELECT * FROM department';
+        connection.query(query, (err,res) => {
+            console.table(res);
+            console.log(err);
+            runChoices()
+        })
     })
 };
 
-const addRole = () => {
+const addEmployee = () => {
     inquirer
-        .prompt([
-        {
-            name: 'title',
-            type: 'input',
-            message: 'What is the title of this role?',
+    .prompt({
+        name: 'add employee',
+        type: 'input',
 
-        },
-
-        {
-            name: 'salary',
-            type: 'input',
-            message: 'What is the salary for this role?',
-            validate(value) {
-                if (isNaN(value) === false) {
-                    return true;
-              }
-              return false;
-                }, 
-
-        },
-
-        {
-            name: 'department',
-            type:'input',
-            message: 'What is the department id?',
-            validate(value) {
-                if (isNaN(value) === false) {
-                    return true;
-              }
-              return false;
-                }, 
-        },
-        ])
+    })
 }
 
-}
+// const createProduct = () => {
+//     console.log('Inserting a new product...\n');
+//     const query = connection.query(
+//       'INSERT INTO products SET ?',
+//       {
+//         flavor: 'Rocky Road',
+//         price: 3.0,
+//         quantity: 50,
+//       },
+//       (err, res) => {
+//         if (err) throw err;
+//         console.log(`${res.affectedRows} product inserted!\n`);
+//         // Call updateProduct AFTER the INSERT completes
+//         updateProduct();
+//       }
+//     );
+  
+//     // logs the actual query being run
+//     console.log(query.sql);
+//   };
