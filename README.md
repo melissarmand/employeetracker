@@ -27,12 +27,12 @@ Developers are often tasked with creating interfaces that make it easy for non-d
 * [GitHub](https://github.com/melissarmand/employeetracker)
 
 ## GIF
-
+ ![GIF](Employee%20Tracker%20GIF.gif)
 
 ## Contributors
 
 * [Melissa Armand](https://github.com/melissarmand)
-* [Michael Pierre-Louis](https://github.com/mgpierrelouis)
+
 
 
 
