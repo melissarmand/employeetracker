@@ -122,49 +122,109 @@ const roleDisplay = () => {
     })
 };
 
-const departmentDisplay = () => {
+
+const addEmployee = () => {
     inquirer
-    .prompt({
-        name: 'department',
-        type: 'confirm',
-        message: 'Department list?'
-    })
-    .then(() => {
-        const query = 'SELECT * FROM department';
+    .prompt([{
+        name: 'firstname',
+        type: 'input',
+        message: 'What is the employees first name?'
+
+    },
+    {
+        name: 'lastname',
+        type: 'input',
+        message: 'What is the employees last name?'
+    },
+    {
+        name: 'role',
+        type: 'input',
+        message: 'What is the employees role? (choose a number)'
+    },
+    {
+        name: 'manager',
+        type: 'input',
+        message: 'Who is the employees manager? (choose 1-4)'
+    }])
+    .then((answer) => {
+        const query = `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${answer.firstname}', '${answer.lastname}', '${answer.role}', '${answer.manager}')`;
         connection.query(query, (err,res) => {
-            console.table(res);
             console.log(err);
             runChoices()
         })
     })
 };
 
-const addEmployee = () => {
+const addDepartment = () => {
     inquirer
     .prompt({
-        name: 'add employee',
+        name: 'departmentname',
         type: 'input',
-
+        message: 'What is the name of the new department?'
     })
-}
+    .then((answer) => {
+        const query = `INSERT INTO department (department_name) VALUES ('${answer.departmentname}')`;
+        connection.query(query, (err, res) => {
+            console.log(err);
+            runChoices()
+        })
+    })
+};
 
-// const createProduct = () => {
-//     console.log('Inserting a new product...\n');
-//     const query = connection.query(
-//       'INSERT INTO products SET ?',
-//       {
-//         flavor: 'Rocky Road',
-//         price: 3.0,
-//         quantity: 50,
-//       },
-//       (err, res) => {
-//         if (err) throw err;
-//         console.log(`${res.affectedRows} product inserted!\n`);
-//         // Call updateProduct AFTER the INSERT completes
-//         updateProduct();
-//       }
-//     );
-  
-//     // logs the actual query being run
-//     console.log(query.sql);
-//   };
+const addRole = () => {
+    inquirer
+    .prompt([{
+        name: 'title',
+        type: 'input',
+        message: 'What is the employees title?'
+    },
+    {
+        name: 'salary',
+        type: 'input',
+        message: 'What is the employees salary?'
+    },
+    {
+        name: 'departmentid',
+        type: 'input',
+        message: 'What is the employees department id (choose 1-4)?'
+    },
+
+])
+    .then((answer) => {
+        const query = `INSERT INTO employee_role (title, salary, department_id) VALUES ('${answer.title}', '${answer.salary}', '${answer.departmentid}')`;
+        connection.query(query, (err, res) => {
+            console.log(err);
+            runChoices()
+        })
+    })
+};
+
+const updateRole = () => {
+    inquirer
+    .prompt([{
+        name: 'employeename',
+        type: 'input',
+        message: 'Which employee would you like to update? (Please type employees first name)'
+    },
+    {
+        name: 'updaterole',
+        type: 'input',
+        message: 'What is this employees new role?'
+    },
+    
+]) 
+.then((answer) => {
+    const query = connection.query(
+        'UPDATE employee SET ? WHERE ?', 
+        [
+            {
+            role_id: answer.updateRole,
+        },
+        {
+            first_name: answer.employeename
+        },
+        runChoices()
+    ],
+    ) 
+})
+}
